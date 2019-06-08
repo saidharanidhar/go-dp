@@ -19,8 +19,8 @@ func (factory DataFactory) GetItem(id string) (interfaces.Item, error) {
 	return item, nil
 }
 
-// AddToFactory adds items to given string
-func (factory *DataFactory) AddToFactory(id string, item interfaces.Item) {
+// addToFactory adds items to given string
+func (factory *DataFactory) addToFactory(id string, item interfaces.Item) {
 	factory.ItemsMap[id] = item
 }
 
@@ -30,4 +30,40 @@ func (factory DataFactory) Describe() {
 	for i := range factory.ItemsMap {
 		fmt.Println(i)
 	}
+}
+
+// NewFactory Creates a New Factory structure
+func NewFactory() interfaces.Factory {
+	factory := DataFactory{
+		ItemsMap: make(map[string]interfaces.Item),
+	}
+
+	factory.addToFactory(
+		"cpu",
+		interfaces.Item(
+			CPU{
+				Core1: 12,
+				Core2: 14,
+				Core3: 19,
+			}))
+
+	factory.addToFactory(
+		"memory",
+		interfaces.Item(
+			Memory{
+				Available: 12,
+				Used:      14,
+				Free:      16,
+			}))
+
+	factory.addToFactory(
+		"monitor",
+		interfaces.Item(
+			Monitor{
+				Resolution:  "1900x1080",
+				RefreshRate: 195,
+			}))
+
+	return interfaces.Factory(factory)
+
 }
